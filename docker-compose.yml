@@ -1,0 +1,11 @@
+version: '1'
+services:
+  sails-db:
+    image: postgres:latest
+    container_name: fiscal-note-db
+    environment:
+      POSTGRES_DB: fiscal-note-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
