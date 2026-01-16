@@ -1,5 +1,8 @@
 package com.samuel.charles.sails_nfe.model.dto;
 
+import lombok.Data;
+
+@Data
 public class AddressDTO {
     private Long id;
     private String street;

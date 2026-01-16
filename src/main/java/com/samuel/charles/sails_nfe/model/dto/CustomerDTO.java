@@ -1,7 +1,9 @@
 package com.samuel.charles.sails_nfe.model.dto;
 
 import com.samuel.charles.sails_nfe.model.entity.Address;
+import lombok.Data;
 
+@Data
 public class CustomerDTO {
     private Long id;
     private String name;
