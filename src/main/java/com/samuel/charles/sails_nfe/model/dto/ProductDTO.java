@@ -1,10 +1,16 @@
 package com.samuel.charles.sails_nfe.model.dto;
 
+import jakarta.persistence.Column;
+import lombok.Data;
+
+@Data
 public class ProductDTO {
-    private Long id;
+    private Integer id;
+    private String code;
     private String name;
     private String description;
-    private Double price;
-    // getters e setters
+    private String amount;
+    private Double unitValue;
+    private Double totalValue;
 }
 
