@@ -1,4 +1,4 @@
-package com.samuel.charles.sails_nfe.infra.security.kafka;
+package com.samuel.charles.sails_nfe.infra.kafka;
 
 import com.samuel.charles.sails_nfe.model.dto.NFeDTO;
 import com.samuel.charles.sails_nfe.service.NFeService;

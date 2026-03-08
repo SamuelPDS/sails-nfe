@@ -37,6 +37,30 @@ public class NFeService implements NFeUseCase {
         }
     }
 
+    @Override
+    public NFeDTO getById(Integer id) {
+        NFe entity = nFeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NFe não encontrada com id: " + id));
+
+        return transformToDTO(entity);
+    }
+
+    @Override
+    public NFeDTO update(Integer id, NFeDTO dto) {
+        NFe existing = nFeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NFe não encontrada com id: " + id));
+
+        log.info("Atualizando NFe {}", id);
+
+        NFe updated = transformToEntity(dto);
+
+        updated.setId(existing.getId());
+
+        NFe saved = nFeRepository.save(updated);
+
+        return transformToDTO(saved);
+    }
+
     private NFe transformToEntity(NFeDTO dto) {
         if (Objects.isNull(dto)) return null;
         return NFe.builder()
@@ -98,10 +122,39 @@ public class NFeService implements NFeUseCase {
                     .id(p.getId())
                     .name(p.getName())
                     .description(p.getDescription())
-                    .price(p.getPrice())
+                    .price(p.getTotalValue())
                     .build();
             list.add(product);
         }
         return list;
+    }
+
+    public void delete(Integer id) {
+
+        if (!nFeRepository.existsById(id)) {
+            throw new RuntimeException("NFe não encontrada com id: " + id);
+        }
+
+        nFeRepository.deleteById(id);
+
+        log.info("NFe {} removida com sucesso", id);
+    }
+
+    private NFeDTO transformToDTO(NFe entity) {
+
+        if (entity == null) return null;
+
+        NFeDTO dto = new NFeDTO();
+
+        dto.setNomeEmitente(entity.getCompany().getName());
+        dto.setCnpjEmitente(entity.getCompany().getCnpj());
+
+        if (entity.getCustomer() != null) {
+            dto.setNomeDestinatario(entity.getCustomer().getName());
+            dto.setCpfDestinatario(entity.getCustomer().getDocument());
+            dto.setTelefoneDestinatario(entity.getCustomer().getPhone());
+        }
+
+        return dto;
     }
 }
